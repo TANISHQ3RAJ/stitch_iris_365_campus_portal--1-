@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login | IRIS 365</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://db.onlinewebfonts.com/c/f9106072214d802b808df16a90f07e97?family=BARABARA-FINAL" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-error-container": "var(--color-on-error-container)",
+                "on-primary-container": "var(--color-on-primary-container)",
+                "primary-fixed": "var(--color-primary-fixed)",
+                "inverse-primary": "var(--color-inverse-primary)",
+                "outline": "var(--color-outline)",
+                "on-primary": "var(--color-on-primary)",
+                "on-primary-fixed-variant": "var(--color-on-primary-fixed-variant)",
+                "on-primary-fixed": "var(--color-on-primary-fixed)",
+                "surface-variant": "var(--color-surface-variant)",
+                "error-container": "var(--color-error-container)",
+                "secondary-container": "var(--color-secondary-container)",
+                "on-tertiary": "var(--color-on-tertiary)",
+                "surface-container-lowest": "var(--color-surface-container-lowest)",
+                "on-error": "var(--color-on-error)",
+                "surface-dim": "var(--color-surface-dim)",
+                "tertiary": "var(--color-tertiary)",
+                "surface-container-high": "var(--color-surface-container-high)",
+                "surface-bright": "var(--color-surface-bright)",
+                "surface-container-low": "var(--color-surface-container-low)",
+                "on-tertiary-fixed-variant": "var(--color-on-tertiary-fixed-variant)",
+                "surface-container": "var(--color-surface-container)",
+                "surface-tint": "var(--color-surface-tint)",
+                "primary-container": "var(--color-primary-container)",
+                "primary": "var(--color-primary)",
+                "on-tertiary-fixed": "var(--color-on-tertiary-fixed)",
+                "secondary-fixed-dim": "var(--color-secondary-fixed-dim)",
+                "on-background": "var(--color-on-background)",
+                "inverse-on-surface": "var(--color-inverse-on-surface)",
+                "primary-fixed-dim": "var(--color-primary-fixed-dim)",
+                "secondary": "var(--color-secondary)",
+                "on-surface-variant": "var(--color-on-surface-variant)",
+                "tertiary-container": "var(--color-tertiary-container)",
+                "surface-container-highest": "var(--color-surface-container-highest)",
+                "tertiary-fixed-dim": "var(--color-tertiary-fixed-dim)",
+                "on-secondary-container": "var(--color-on-secondary-container)",
+                "surface": "var(--color-surface)",
+                "on-secondary-fixed-variant": "var(--color-on-secondary-fixed-variant)",
+                "inverse-surface": "var(--color-inverse-surface)",
+                "background": "var(--color-background)",
+                "outline-variant": "var(--color-outline-variant)",
+                "error": "var(--color-error)",
+                "tertiary-fixed": "var(--color-tertiary-fixed)",
+                "secondary-fixed": "var(--color-secondary-fixed)",
+                "on-surface": "var(--color-on-surface)",
+                "on-tertiary-container": "var(--color-on-tertiary-container)",
+                "on-secondary": "var(--color-on-secondary)",
+                "on-secondary-fixed": "var(--color-on-secondary-fixed)"
+            },
+            "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "24px",
+                "base": "8px",
+                "container-padding-desktop": "24px",
+                "container-padding-mobile": "16px",
+                "margin-page": "32px"
+            },
+            "fontFamily": {
+                "label-lg": ["Roboto Flex"],
+                "body-md": ["Roboto Flex"],
+                "headline-lg": ["Roboto Flex"],
+                "label-sm": ["Roboto Flex"],
+                "headline-lg-mobile": ["Roboto Flex"],
+                "body-lg": ["Roboto Flex"],
+                "title-lg": ["Roboto Flex"],
+                "headline-md": ["Roboto Flex"],
+                "title-md": ["Roboto Flex"]
+            },
+            "fontSize": {
+                "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                "headline-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.25px", "fontWeight": "400"}],
+                "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                "headline-md": ["45px", {"lineHeight": "52px", "fontWeight": "400"}],
+                "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        :root {
+            --color-surface: #fdf7ff;
+            --color-surface-dim: #ded8e0;
+            --color-surface-bright: #fdf7ff;
+            --color-surface-container-lowest: #ffffff;
+            --color-surface-container-low: #f8f2fa;
+            --color-surface-container: #f2ecf4;
+            --color-surface-container-high: #ece6ee;
+            --color-surface-container-highest: #e6e0e9;
+            --color-on-surface: #1d1b20;
+            --color-on-surface-variant: #494551;
+            --color-inverse-surface: #322f35;
+            --color-inverse-on-surface: #f5eff7;
+            --color-outline: #7a7582;
+            --color-outline-variant: #cbc4d2;
+            --color-surface-tint: #6750a4;
+            --color-primary: #4f378a;
+            --color-on-primary: #ffffff;
+            --color-primary-container: #6750a4;
+            --color-on-primary-container: #e0d2ff;
+            --color-inverse-primary: #cfbcff;
+            --color-secondary: #63597c;
+            --color-on-secondary: #ffffff;
+            --color-secondary-container: #e1d4fd;
+            --color-on-secondary-container: #645a7d;
+            --color-tertiary: #633b48;
+            --color-on-tertiary: #ffffff;
+            --color-tertiary-container: #7d5260;
+            --color-on-tertiary-container: #ffcbda;
+            --color-error: #ba1a1a;
+            --color-on-error: #ffffff;
+            --color-error-container: #ffdad6;
+            --color-on-error-container: #93000a;
+            --color-primary-fixed: #e9ddff;
+            --color-primary-fixed-dim: #cfbcff;
+            --color-on-primary-fixed: #22005d;
+            --color-on-primary-fixed-variant: #4f378a;
+            --color-secondary-fixed: #e9ddff;
+            --color-secondary-fixed-dim: #cdc0e9;
+            --color-on-secondary-fixed: #1f1635;
+            --color-on-secondary-fixed-variant: #4b4263;
+            --color-tertiary-fixed: #ffd9e3;
+            --color-tertiary-fixed-dim: #eeb8c8;
+            --color-on-tertiary-fixed: #31111d;
+            --color-on-tertiary-fixed-variant: #633b48;
+            --color-background: #fdf7ff;
+            --color-on-background: #1d1b20;
+            --color-surface-variant: #e6e0e9;
+        }
+
+        html.dark {
+            --color-surface: #141218;
+            --color-surface-dim: #141218;
+            --color-surface-bright: #3b383e;
+            --color-surface-container-lowest: #0f0d13;
+            --color-surface-container-low: #1d1b20;
+            --color-surface-container: #211f26;
+            --color-surface-container-high: #2b2930;
+            --color-surface-container-highest: #36343b;
+            --color-on-surface: #e6e1e9;
+            --color-on-surface-variant: #cac4d0;
+            --color-inverse-surface: #e6e1e9;
+            --color-inverse-on-surface: #322f35;
+            --color-outline: #938f99;
+            --color-outline-variant: #49454f;
+            --color-surface-tint: #d0bcff;
+            --color-primary: #d0bcff;
+            --color-on-primary: #381e72;
+            --color-primary-container: #4f378a;
+            --color-on-primary-container: #e9ddff;
+            --color-inverse-primary: #6750a4;
+            --color-secondary: #ccc2dc;
+            --color-on-secondary: #332d41;
+            --color-secondary-container: #4a4458;
+            --color-on-secondary-container: #e8def8;
+            --color-tertiary: #efb8c8;
+            --color-on-tertiary: #492532;
+            --color-tertiary-container: #633b48;
+            --color-on-tertiary-container: #ffd8e4;
+            --color-error: #f2b8b5;
+            --color-on-error: #601410;
+            --color-error-container: #8c1d18;
+            --color-on-error-container: #f9dedc;
+            --color-primary-fixed: #e9ddff;
+            --color-primary-fixed-dim: #cfbcff;
+            --color-on-primary-fixed: #22005d;
+            --color-on-primary-fixed-variant: #4f378a;
+            --color-secondary-fixed: #e9ddff;
+            --color-secondary-fixed-dim: #cdc0e9;
+            --color-on-secondary-fixed: #1f1635;
+            --color-on-secondary-fixed-variant: #4b4263;
+            --color-tertiary-fixed: #ffd9e3;
+            --color-tertiary-fixed-dim: #eeb8c8;
+            --color-on-tertiary-fixed: #31111d;
+            --color-on-tertiary-fixed-variant: #633b48;
+            --color-background: #141218;
+            --color-on-background: #e6e1e9;
+            --color-surface-variant: #49454f;
+        }
+
+        body, section, main, form, input, button, p, h1, h2, h3, h4, span, div {
+            transition: background-color 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s cubic-bezier(0.2, 0, 0, 1), color 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-100px) rotate(10deg); opacity: 0; }
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes slide-in-right {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0; }
+            100% { transform: scale(0.8); opacity: 0; }
+        }
+        .animate-float { animation: float 8s infinite linear; }
+        .animate-rotate-slow { animation: rotate-slow 20s infinite linear; }
+        .animate-slide-in-right { animation: slide-in-right 0.8s cubic-bezier(0.2, 0, 0, 1) forwards; }
+        .animate-pulse-ring { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filled-input {
+            border-bottom: 2px solid var(--color-outline);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+        .filled-input:focus {
+            border-bottom-color: var(--color-primary);
+            background-color: var(--color-primary-fixed-dim);
+            outline: none;
+        }
+        .filled-input.error-state {
+            border-bottom-color: var(--color-error) !important;
+            background-color: var(--color-error-container) !important;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden overflow-y-auto">
+<!-- Floating Theme/DB Toggle Buttons -->
+<div class="fixed top-4 right-4 z-50 flex gap-2">
+    <button id="db-settings-btn" class="p-3 bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-full shadow-md active:scale-95 transition-all duration-300 flex items-center justify-center border border-outline-variant" title="Database Settings">
+        <span class="material-symbols-outlined block">database</span>
+    </button>
+    <button id="theme-toggle" class="p-3 bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-full shadow-md active:scale-95 transition-all duration-300 flex items-center justify-center border border-outline-variant" title="Toggle Theme">
+        <span class="material-symbols-outlined block">dark_mode</span>
+    </button>
+</div>
+
+<main class="flex min-h-screen w-full">
+<!-- Left Panel: Brand & Visuals (60%) -->
+<section class="relative hidden lg:flex w-[60%] flex-col justify-between p-margin-page overflow-hidden bg-gradient-to-b from-[#6750A4] to-[#2E1654]">
+<!-- Animated Background Blobs -->
+<div class="absolute inset-0 z-0">
+<div class="animate-rotate-slow absolute -top-20 -left-20 w-96 h-96 bg-primary-fixed/20 rounded-full blur-3xl"></div>
+<div class="animate-rotate-slow absolute top-1/2 -right-20 w-80 h-80 bg-tertiary-fixed/20 rounded-full blur-3xl" style="animation-direction: reverse;"></div>
+</div>
+
+<!-- Left Vertical Timeline Widget -->
+<div class="absolute left-10 top-[22%] bottom-[35%] w-[1px] bg-gradient-to-b from-white/30 via-white/10 to-transparent flex flex-col justify-between items-center z-20">
+    <!-- Hexagon Node -->
+    <div class="w-6 h-6 flex items-center justify-center -translate-y-3">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L20 6.5V15.5L12 20L4 15.5V6.5L12 2z" fill="#38BDF8" fill-opacity="0.3" stroke="#38BDF8" stroke-width="2"/>
+            <circle cx="12" cy="11" r="3" fill="#38BDF8"/>
+        </svg>
+    </div>
+    <!-- Plus Node -->
+    <div class="text-white/60 font-semibold text-xl -translate-y-12 select-none">+</div>
+    <!-- Diamond Node -->
+    <div class="w-4 h-4 bg-white/20 border border-white/40 rotate-45 translate-y-2"></div>
+</div>
+
+<!-- Floating Icons Layer -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-10">
+    <!-- 3D Call Icon SVG -->
+    <div class="absolute left-[5%] bottom-[20%] z-20 pointer-events-none animate-float" style="animation-delay: 1.5s;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="phoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#b09cff" />
+                    <stop offset="50%" stop-color="#7050e0" />
+                    <stop offset="100%" stop-color="#3d20a0" />
+                </linearGradient>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3" />
+                </filter>
+            </defs>
+            <rect x="2" y="2" width="66" height="66" rx="22" fill="url(#phoneGrad)" opacity="0.85" filter="url(#shadow)" />
+            <rect x="4" y="4" width="62" height="62" rx="20" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+            <!-- Phone Call Icon Path -->
+            <path d="M24 28 C24 27, 25 25, 27 25 C29 25, 31 27, 31 29 C31 32, 29.5 34, 28 35.5 C31.5 40.5, 34.5 43.5, 39.5 47 C41 45.5, 43 44, 46 44 C48 44, 50 46, 50 48 C50 50, 48 51, 47 51 C41 51, 31 41, 24 28 Z" fill="white" filter="url(#glow)" opacity="0.9" />
+            <path d="M44 26 C48 29, 50 33, 50 38" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+            <path d="M50 21 C55 25, 58 31, 58 38" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+        </svg>
+    </div>
+    
+    <!-- Outline Icons -->
+    <span class="material-symbols-outlined absolute text-white/40 text-4xl animate-float" style="left: 18%; bottom: 18%; animation-delay: 2s;">menu_book</span>
+    <span class="material-symbols-outlined absolute text-white/40 text-4xl animate-float" style="left: 35%; bottom: 6%; animation-delay: 4s;">restaurant</span>
+    <span class="material-symbols-outlined absolute text-white/40 text-4xl animate-float" style="left: 48%; bottom: 23%; animation-delay: 1s;">group</span>
+    <span class="material-symbols-outlined absolute text-white/40 text-4xl animate-float" style="left: 88%; bottom: 13%; animation-delay: 3s;">wifi</span>
+    
+    <!-- Triangle -->
+    <div class="absolute right-[8%] top-[25%] opacity-20 text-white z-10 animate-float" style="animation-delay: 2.5s;">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="10,2 18,18 2,18" stroke="white" stroke-width="2" fill="none" />
+        </svg>
+    </div>
+</div>
+
+<!-- Header Content -->
+<div class="relative z-20">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-8">
+<span class="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+<span class="font-label-lg text-label-lg text-white">Smart Campus. Smarter Future.</span>
+</div>
+</div>
+
+<!-- Large Central Logo Emblem -->
+<div class="relative flex-grow flex flex-col items-center justify-center my-4 z-20">
+    <h2 class="text-white text-2xl lg:text-3xl tracking-[0.15em] font-bold text-center mb-6 select-none opacity-90 drop-shadow-md" style="font-family: 'BARABARA-FINAL', sans-serif;">BUILD TOMORROW TOGETHER</h2>
+    <img id="logo-img" src="../../logo.png" class="w-full max-w-[420px] h-auto object-contain select-none pointer-events-none" alt="IRIS 365 Logo" />
+</div>
+
+<!-- Stats Glass Card -->
+<div class="relative z-20 glass-card p-6 rounded-[24px] max-w-[340px] self-start border border-dashed border-white/30 shadow-lg">
+<div class="grid grid-cols-3 gap-gutter text-white text-center">
+<div>
+<div class="font-headline-md text-headline-md font-bold">8</div>
+<div class="font-label-sm text-label-sm opacity-70">Projects</div>
+</div>
+<div class="border-x border-white/10">
+<div class="font-headline-md text-headline-md font-bold">35+</div>
+<div class="font-label-sm text-label-sm opacity-70">Team Members</div>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold">1</div>
+<div class="font-label-sm text-label-sm opacity-70">Vision</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Right Panel: Login Form (40%) -->
+<section class="animate-slide-in-right relative flex flex-col justify-center items-center w-full lg:w-[40%] p-6 sm:p-margin-page bg-surface shadow-2xl z-30 border-l border-outline-variant">
+<!-- Floating decoration elements inside the right panel -->
+<div class="absolute bottom-24 left-[15%] w-3 h-3 bg-indigo-200 rotate-45 opacity-60 pointer-events-none z-0"></div>
+<div class="absolute bottom-6 left-10 w-10 h-10 bg-cyan-100 rounded-full opacity-60 pointer-events-none z-0"></div>
+
+<div class="w-full max-w-[400px] z-10">
+<!-- Logo Badge -->
+<div class="flex justify-center mb-10">
+<div class="relative">
+<div class="absolute inset-0 rounded-full bg-primary/20 animate-pulse-ring"></div>
+<div class="relative w-20 h-20 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container shadow-md">
+<span class="material-symbols-outlined text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+</div>
+</div>
+<div class="text-center mb-6">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-md lg:text-headline-md text-on-surface font-bold">Welcome Back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Sign in to your campus!</p>
+</div>
+
+<!-- Supabase Warning Banner -->
+<div id="supabase-status-banner" class="w-full mb-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-amber-800 dark:text-amber-200">
+    <span class="material-symbols-outlined text-xl flex-shrink-0 text-amber-500">warning</span>
+    <div class="text-xs font-body-md text-left">
+        <span class="font-bold">Offline Demo Mode</span>. Authenticating locally. Click the <span class="font-bold">Database</span> icon in the top-right to connect your Supabase database.
+    </div>
+</div>
+<!-- Login Form -->
+<form id="login-form" class="space-y-6" onsubmit="event.preventDefault();">
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg text-on-surface-variant ml-1">Campus ID / Email</label>
+<div class="relative">
+<input id="email-input" class="w-full px-4 py-4 bg-surface-container-low rounded-t-base filled-input font-body-lg text-body-lg text-on-surface" placeholder="e.g. j.doe@iris365.edu" type="email" required/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">alternate_email</span>
+</div>
+<p id="email-error" class="text-error text-xs text-red-600 font-label-sm ml-1 hidden">Please enter a valid email address.</p>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-lg text-label-lg text-on-surface-variant">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline transition-all" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<input id="password-input" class="w-full px-4 py-4 bg-surface-container-low rounded-t-base filled-input font-body-lg text-body-lg text-on-surface" placeholder="••••••••" type="password" required minlength="6"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline cursor-pointer hover:text-primary transition-colors">visibility</span>
+</div>
+<p id="password-error" class="text-error text-xs text-red-600 font-label-sm ml-1 hidden">Password must be at least 6 characters long.</p>
+</div>
+<div class="flex items-center gap-2 px-1">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" id="remember" type="checkbox"/>
+<label class="font-label-lg text-label-lg text-on-surface-variant select-none" for="remember">Keep me signed in</label>
+</div>
+<div class="space-y-4 pt-4">
+<button id="signin-btn" class="w-full py-4 bg-primary text-on-primary rounded-full font-label-lg text-label-lg shadow-sm hover:shadow-md active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] flex items-center justify-center gap-2">
+    <span>Sign In</span>
+</button>
+<div class="relative py-2">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant"></div></div>
+<div class="relative flex justify-center"><span class="bg-surface px-4 font-label-sm text-label-sm text-outline uppercase">OR</span></div>
+</div>
+<button id="google-btn" type="button" class="w-full py-4 border border-outline-variant text-on-surface rounded-full font-label-lg text-label-lg flex items-center justify-center gap-3 hover:bg-surface-container transition-colors active:scale-95 duration-300">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                            <span>Continue with Google</span>
+                        </button>
+</div>
+</form>
+<p class="mt-12 text-center font-label-sm text-label-sm text-outline">
+                    Don't have an account? <a class="text-primary font-bold hover:underline" href="#">Contact Administration</a>
+</p>
+<!-- Footer -->
+<footer class="mt-20 text-center opacity-50">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Powered by SIN Technologies</p>
+</footer>
+</div>
+</section>
+</main>
+<!-- Decorative Corner Element -->
+<div class="fixed bottom-0 right-0 p-4 pointer-events-none opacity-20">
+<span class="font-headline-md text-headline-md font-black text-primary select-none">365</span>
+</div>
+<script>
+        // Simple theme toggle implementation
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = themeToggleBtn.querySelector('.material-symbols-outlined');
+
+        function applyTheme(theme) {
+            const logoImg = document.getElementById('logo-img');
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+                themeToggleIcon.textContent = 'light_mode';
+                if (logoImg) logoImg.src = '../../logo 2.webp';
+            } else {
+                htmlElement.classList.add('light');
+                htmlElement.classList.remove('dark');
+                themeToggleIcon.textContent = 'dark_mode';
+                if (logoImg) logoImg.src = '../../logo.png';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = htmlElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // Supabase Initialization & Configuration
+        let supabaseClient = null;
+        const dbStatusBanner = document.getElementById('supabase-status-banner');
+
+        function initSupabase() {
+            const url = localStorage.getItem('supabase_url');
+            const key = localStorage.getItem('supabase_key');
+            if (url && key) {
+                try {
+                    supabaseClient = supabase.createClient(url, key);
+                    if (dbStatusBanner) {
+                        dbStatusBanner.innerHTML = `
+                            <span class="material-symbols-outlined text-xl flex-shrink-0 text-emerald-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            <div class="text-xs font-body-md text-emerald-800 dark:text-emerald-200">
+                                <span class="font-bold">Connected to Supabase</span>. Real database authentication is active.
+                            </div>
+                        `;
+                        dbStatusBanner.className = "w-full mb-6 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3";
+                    }
+                } catch (err) {
+                    console.error("Failed to initialize Supabase:", err);
+                    supabaseClient = null;
+                }
+            } else {
+                supabaseClient = null;
+                if (dbStatusBanner) {
+                    dbStatusBanner.innerHTML = `
+                        <span class="material-symbols-outlined text-xl flex-shrink-0 text-amber-500">warning</span>
+                        <div class="text-xs font-body-md text-left text-amber-800 dark:text-amber-200">
+                            <span class="font-bold">Offline Demo Mode</span>. Authenticating locally. Click the <span class="font-bold">Database</span> icon in the top-right to connect your Supabase database.
+                        </div>
+                    `;
+                    dbStatusBanner.className = "w-full mb-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-3";
+                }
+            }
+        }
+
+        initSupabase();
+
+        // Database Configuration Modal Interaction
+        const dbModal = document.getElementById('db-modal');
+        const dbSettingsBtn = document.getElementById('db-settings-btn');
+        const closeDbModal = document.getElementById('close-db-modal');
+        const dbConfigForm = document.getElementById('db-config-form');
+        const dbUrlInput = document.getElementById('db-url-input');
+        const dbKeyInput = document.getElementById('db-key-input');
+        const clearDbBtn = document.getElementById('clear-db-btn');
+
+        function showDbModal() {
+            dbModal.classList.remove('hidden');
+            setTimeout(() => dbModal.classList.remove('opacity-0'), 10);
+            dbUrlInput.value = localStorage.getItem('supabase_url') || '';
+            dbKeyInput.value = localStorage.getItem('supabase_key') || '';
+        }
+
+        function hideDbModal() {
+            dbModal.classList.add('opacity-0');
+            setTimeout(() => dbModal.classList.add('hidden'), 300);
+        }
+
+        dbSettingsBtn.addEventListener('click', showDbModal);
+        closeDbModal.addEventListener('click', hideDbModal);
+        dbModal.addEventListener('click', (e) => {
+            if (e.target === dbModal) hideDbModal();
+        });
+
+        dbConfigForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('supabase_url', dbUrlInput.value.trim());
+            localStorage.setItem('supabase_key', dbKeyInput.value.trim());
+            initSupabase();
+            hideDbModal();
+        });
+
+        clearDbBtn.addEventListener('click', () => {
+            localStorage.removeItem('supabase_url');
+            localStorage.removeItem('supabase_key');
+            dbUrlInput.value = '';
+            dbKeyInput.value = '';
+            initSupabase();
+            hideDbModal();
+        });
+
+        // Simple micro-interaction for password toggle
+        const togglePassword = document.querySelector('.material-symbols-outlined.cursor-pointer');
+        const passwordInput = document.getElementById('password-input');
+ 
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            togglePassword.textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+
+        // Form submission interactive behavior
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email-input');
+        const passwordInputError = document.getElementById('password-error');
+        const emailInputError = document.getElementById('email-error');
+        const signinBtn = document.getElementById('signin-btn');
+        const googleBtn = document.getElementById('google-btn');
+
+        // Validation helpers
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function clearErrors() {
+            emailInput.classList.remove('error-state');
+            passwordInput.classList.remove('error-state');
+            emailInputError.classList.add('hidden');
+            passwordInputError.classList.add('hidden');
+        }
+
+        function triggerLoading(button, text, callback) {
+            const originalHTML = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>${text}</span>
+            `;
+            setTimeout(() => {
+                callback(originalHTML);
+            }, 1200);
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            let isValid = true;
+            if (!validateEmail(emailInput.value)) {
+                emailInput.classList.add('error-state');
+                emailInputError.textContent = 'Please enter a valid email address.';
+                emailInputError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (passwordInput.value.length < 6) {
+                passwordInput.classList.add('error-state');
+                passwordInputError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (isValid) {
+                const email = emailInput.value;
+                const password = passwordInput.value;
+
+                triggerLoading(signinBtn, supabaseClient ? 'Authenticating...' : 'Signing In...', async (originalHTML) => {
+                    if (supabaseClient) {
+                        try {
+                            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                                email: email,
+                                password: password
+                            });
+
+                            if (error) {
+                                emailInput.classList.add('error-state');
+                                passwordInput.classList.add('error-state');
+                                emailInputError.textContent = error.message;
+                                emailInputError.classList.remove('hidden');
+                                signinBtn.disabled = false;
+                                signinBtn.innerHTML = originalHTML;
+                            } else {
+                                localStorage.setItem('user_email', data.user.email);
+                                localStorage.setItem('user_name', data.user.email.split('@')[0]);
+                                window.location.href = '../iris_365_dashboard/code.html';
+                            }
+                        } catch (err) {
+                            console.error("Auth error:", err);
+                            emailInputError.textContent = "An unexpected database authentication error occurred.";
+                            emailInputError.classList.remove('hidden');
+                            signinBtn.disabled = false;
+                            signinBtn.innerHTML = originalHTML;
+                        }
+                    } else {
+                        // Mock login
+                        localStorage.setItem('user_email', email);
+                        localStorage.setItem('user_name', email.split('@')[0]);
+                        window.location.href = '../iris_365_dashboard/code.html';
+                    }
+                });
+            }
+        });
+
+        // Google Login Action
+        googleBtn.addEventListener('click', () => {
+            clearErrors();
+            triggerLoading(googleBtn, 'Connecting to Google...', async (originalHTML) => {
+                if (supabaseClient) {
+                    try {
+                        const redirectUrl = window.location.origin + window.location.pathname.replace('iris_365_login/code.html', 'iris_365_dashboard/code.html');
+                        const { error } = await supabaseClient.auth.signInWithOAuth({
+                            provider: 'google',
+                            options: {
+                                redirectTo: redirectUrl
+                            }
+                        });
+                        if (error) {
+                            console.error("OAuth error:", error);
+                            googleBtn.disabled = false;
+                            googleBtn.innerHTML = originalHTML;
+                        }
+                    } catch (err) {
+                        console.error("Google Auth error:", err);
+                        googleBtn.disabled = false;
+                        googleBtn.innerHTML = originalHTML;
+                    }
+                } else {
+                    localStorage.setItem('user_email', 'google.user@iris365.edu');
+                    localStorage.setItem('user_name', 'Google User');
+                    window.location.href = '../iris_365_dashboard/code.html';
+                }
+            });
+        });
+
+        // Atmospheric parallax effect for left panel
+        document.addEventListener('mousemove', (e) => {
+            const leftPanel = document.querySelector('section.relative');
+            if (!leftPanel || window.innerWidth < 1024) return;
+            
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            const blobs = document.querySelectorAll('.animate-rotate-slow');
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 2;
+                blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px) rotate(45deg)`;
+            });
+        });
+    </script>
+<!-- Supabase Configuration Modal -->
+<div id="db-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card p-8 rounded-[24px] max-w-[480px] w-full mx-4 border border-white/20 shadow-2xl relative">
+        <button id="close-db-modal" class="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-variant/50 transition-colors">
+            <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="material-symbols-outlined text-primary text-3xl">database</span>
+            <h3 class="font-title-lg text-title-lg text-on-surface font-bold">Supabase Configuration</h3>
+        </div>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-6 text-left">
+            Configure your project database details. Once entered, logins will run live authentication checks against your Supabase instance.
+        </p>
+        <form id="db-config-form" class="space-y-4 text-left">
+            <div class="space-y-1">
+                <label class="font-label-lg text-label-lg text-on-surface-variant">Supabase Project URL</label>
+                <input id="db-url-input" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg font-body-lg text-body-lg text-on-surface focus:outline-none focus:border-primary" placeholder="https://xxxxxx.supabase.co" type="url" required />
+            </div>
+            <div class="space-y-1">
+                <label class="font-label-lg text-label-lg text-on-surface-variant">Supabase Anon Key</label>
+                <input id="db-key-input" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg font-body-lg text-body-lg text-on-surface focus:outline-none focus:border-primary" placeholder="your-anon-publishable-key" type="password" required />
+            </div>
+            <div class="flex justify-end gap-3 pt-4">
+                <button id="clear-db-btn" type="button" class="px-6 py-3 border border-outline-variant text-on-surface rounded-full font-label-lg text-label-lg hover:bg-surface-container transition-colors active:scale-95 duration-300">
+                    Clear Config
+                </button>
+                <button type="submit" class="px-6 py-3 bg-primary text-on-primary rounded-full font-label-lg text-label-lg shadow-sm hover:shadow-md active:scale-95 transition-all duration-300">
+                    Save Configuration
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

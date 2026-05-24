@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <script>
+        window.addEventListener('error', function(e) {
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ba1a1a;color:#fff;padding:16px;z-index:999999;font-family:monospace;font-size:14px;border-bottom:2px solid #ffdad6;text-align:left;box-shadow:0 4px 12px rgba(0,0,0,0.3);white-space:pre-wrap;';
+            errDiv.innerHTML = '<strong>Client Error:</strong> ' + e.message + ' at ' + e.filename + ':' + e.lineno + ':' + e.colno + '<br><small>' + (e.error ? e.error.stack : '') + '</small>';
+            document.body.appendChild(errDiv);
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ba1a1a;color:#fff;padding:16px;z-index:999999;font-family:monospace;font-size:14px;border-bottom:2px solid #ffdad6;text-align:left;box-shadow:0 4px 12px rgba(0,0,0,0.3);white-space:pre-wrap;';
+            errDiv.innerHTML = '<strong>Unhandled Promise Rejection:</strong> ' + e.reason + (e.reason && e.reason.stack ? '<br><small>' + e.reason.stack + '</small>' : '');
+            document.body.appendChild(errDiv);
+        });
+    </script>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>IRIS 365 | Campus Innovation Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.cdnfonts.com/css/jersey-m54" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "var(--color-on-error-container)",
+                    "on-primary-container": "var(--color-on-primary-container)",
+                    "primary-fixed": "var(--color-primary-fixed)",
+                    "inverse-primary": "var(--color-inverse-primary)",
+                    "outline": "var(--color-outline)",
+                    "on-primary": "var(--color-on-primary)",
+                    "on-primary-fixed-variant": "var(--color-on-primary-fixed-variant)",
+                    "on-primary-fixed": "var(--color-on-primary-fixed)",
+                    "surface-variant": "var(--color-surface-variant)",
+                    "error-container": "var(--color-error-container)",
+                    "secondary-container": "var(--color-secondary-container)",
+                    "on-tertiary": "var(--color-on-tertiary)",
+                    "surface-container-lowest": "var(--color-surface-container-lowest)",
+                    "on-error": "var(--color-on-error)",
+                    "surface-dim": "var(--color-surface-dim)",
+                    "tertiary": "var(--color-tertiary)",
+                    "surface-container-high": "var(--color-surface-container-high)",
+                    "surface-bright": "var(--color-surface-bright)",
+                    "surface-container-low": "var(--color-surface-container-low)",
+                    "on-tertiary-fixed-variant": "var(--color-on-tertiary-fixed-variant)",
+                    "surface-container": "var(--color-surface-container)",
+                    "surface-tint": "var(--color-surface-tint)",
+                    "primary-container": "var(--color-primary-container)",
+                    "primary": "var(--color-primary)",
+                    "on-tertiary-fixed": "var(--color-on-tertiary-fixed)",
+                    "secondary-fixed-dim": "var(--color-secondary-fixed-dim)",
+                    "on-background": "var(--color-on-background)",
+                    "inverse-on-surface": "var(--color-inverse-on-surface)",
+                    "primary-fixed-dim": "var(--color-primary-fixed-dim)",
+                    "secondary": "var(--color-secondary)",
+                    "on-surface-variant": "var(--color-on-surface-variant)",
+                    "tertiary-container": "var(--color-tertiary-container)",
+                    "surface-container-highest": "var(--color-surface-container-highest)",
+                    "tertiary-fixed-dim": "var(--color-tertiary-fixed-dim)",
+                    "on-secondary-container": "var(--color-on-secondary-container)",
+                    "surface": "var(--color-surface)",
+                    "on-secondary-fixed-variant": "var(--color-on-secondary-fixed-variant)",
+                    "inverse-surface": "var(--color-inverse-surface)",
+                    "background": "var(--color-background)",
+                    "outline-variant": "var(--color-outline-variant)",
+                    "error": "var(--color-error)",
+                    "tertiary-fixed": "var(--color-tertiary-fixed)",
+                    "secondary-fixed": "var(--color-secondary-fixed)",
+                    "on-surface": "var(--color-on-surface)",
+                    "on-tertiary-container": "var(--color-on-tertiary-container)",
+                    "on-secondary": "var(--color-on-secondary)",
+                    "on-secondary-fixed": "var(--color-on-secondary-fixed)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "8px",
+                    "container-padding-desktop": "24px",
+                    "container-padding-mobile": "16px",
+                    "margin-page": "32px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Roboto Flex"],
+                    "body-md": ["Roboto Flex"],
+                    "headline-lg": ["Roboto Flex"],
+                    "label-sm": ["Roboto Flex"],
+                    "headline-lg-mobile": ["Roboto Flex"],
+                    "body-lg": ["Roboto Flex"],
+                    "title-lg": ["Roboto Flex"],
+                    "headline-md": ["Roboto Flex"],
+                    "title-md": ["Roboto Flex"],
+                    "jersey": ["'Jersey M54'", "sans-serif"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                    "headline-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.25px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-md": ["45px", {"lineHeight": "52px", "fontWeight": "400"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        :root {
+            --color-surface: #fdf7ff;
+            --color-surface-dim: #ded8e0;
+            --color-surface-bright: #fdf7ff;
+            --color-surface-container-lowest: #ffffff;
+            --color-surface-container-low: #f8f2fa;
+            --color-surface-container: #f2ecf4;
+            --color-surface-container-high: #ece6ee;
+            --color-surface-container-highest: #e6e0e9;
+            --color-on-surface: #1d1b20;
+            --color-on-surface-variant: #494551;
+            --color-inverse-surface: #322f35;
+            --color-inverse-on-surface: #f5eff7;
+            --color-outline: #7a7582;
+            --color-outline-variant: #cbc4d2;
+            --color-surface-tint: #6750a4;
+            --color-primary: #4f378a;
+            --color-on-primary: #ffffff;
+            --color-primary-container: #6750a4;
+            --color-on-primary-container: #e0d2ff;
+            --color-inverse-primary: #cfbcff;
+            --color-secondary: #63597c;
+            --color-on-secondary: #ffffff;
+            --color-secondary-container: #e1d4fd;
+            --color-on-secondary-container: #645a7d;
+            --color-tertiary: #633b48;
+            --color-on-tertiary: #ffffff;
+            --color-tertiary-container: #7d5260;
+            --color-on-tertiary-container: #ffcbda;
+            --color-error: #ba1a1a;
+            --color-on-error: #ffffff;
+            --color-error-container: #ffdad6;
+            --color-on-error-container: #93000a;
+            --color-primary-fixed: #e9ddff;
+            --color-primary-fixed-dim: #cfbcff;
+            --color-on-primary-fixed: #22005d;
+            --color-on-primary-fixed-variant: #4f378a;
+            --color-secondary-fixed: #e9ddff;
+            --color-secondary-fixed-dim: #cdc0e9;
+            --color-on-secondary-fixed: #1f1635;
+            --color-on-secondary-fixed-variant: #4b4263;
+            --color-tertiary-fixed: #ffd9e3;
+            --color-tertiary-fixed-dim: #eeb8c8;
+            --color-on-tertiary-fixed: #31111d;
+            --color-on-tertiary-fixed-variant: #633b48;
+            --color-background: #fdf7ff;
+            --color-on-background: #1d1b20;
+            --color-surface-variant: #e6e0e9;
+        }
+
+        html.dark {
+            --color-surface: #141218;
+            --color-surface-dim: #141218;
+            --color-surface-bright: #3b383e;
+            --color-surface-container-lowest: #0f0d13;
+            --color-surface-container-low: #1d1b20;
+            --color-surface-container: #211f26;
+            --color-surface-container-high: #2b2930;
+            --color-surface-container-highest: #36343b;
+            --color-on-surface: #e6e1e9;
+            --color-on-surface-variant: #cac4d0;
+            --color-inverse-surface: #e6e1e9;
+            --color-inverse-on-surface: #322f35;
+            --color-outline: #938f99;
+            --color-outline-variant: #49454f;
+            --color-surface-tint: #d0bcff;
+            --color-primary: #d0bcff;
+            --color-on-primary: #381e72;
+            --color-primary-container: #4f378a;
+            --color-on-primary-container: #e9ddff;
+            --color-inverse-primary: #6750a4;
+            --color-secondary: #ccc2dc;
+            --color-on-secondary: #332d41;
+            --color-secondary-container: #4a4458;
+            --color-on-secondary-container: #e8def8;
+            --color-tertiary: #efb8c8;
+            --color-on-tertiary: #492532;
+            --color-tertiary-container: #633b48;
+            --color-on-tertiary-container: #ffd8e4;
+            --color-error: #f2b8b5;
+            --color-on-error: #601410;
+            --color-error-container: #8c1d18;
+            --color-on-error-container: #f9dedc;
+            --color-primary-fixed: #e9ddff;
+            --color-primary-fixed-dim: #cfbcff;
+            --color-on-primary-fixed: #22005d;
+            --color-on-primary-fixed-variant: #4f378a;
+            --color-secondary-fixed: #e9ddff;
+            --color-secondary-fixed-dim: #cdc0e9;
+            --color-on-secondary-fixed: #1f1635;
+            --color-on-secondary-fixed-variant: #4b4263;
+            --color-tertiary-fixed: #ffd9e3;
+            --color-tertiary-fixed-dim: #eeb8c8;
+            --color-on-tertiary-fixed: #31111d;
+            --color-on-tertiary-fixed-variant: #633b48;
+            --color-background: #141218;
+            --color-on-background: #e6e1e9;
+            --color-surface-variant: #49454f;
+        }
+
+        body, header, main, footer, section, div:not(.group):not(.avatar-pop), button, input, p, h1, h2, h3, h4, span, a:not(.group) {
+            transition: background-color 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s cubic-bezier(0.2, 0, 0, 1), color 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        .organic-glass {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.15;
+            animation: float 20s ease-in-out infinite;
+        }
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            display: flex;
+        }
+        .marquee-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .reveal {
+            /* GSAP handles reveal animations */
+        }
+        .pulse-ring {
+            box-shadow: 0 0 0 0 rgba(79, 55, 138, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 55, 138, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(79, 55, 138, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 55, 138, 0); }
+        }
+        .avatar-pop {
+            /* transition handled by GSAP */
+        }
+        .avatar-pop:hover {
+            transform: scale(1.1) rotate(3deg);
+            z-index: 30;
+        }
+        .auth-badge {
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        #projects-grid,
+        #services-carousel {
+            min-height: 300px;
+        }
+
+        #services-carousel {
+            overflow-y: hidden;
+            align-items: stretch;
+            scroll-behavior: smooth;
+        }
+
+        #services-carousel > * {
+            flex-shrink: 0;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        #projects-grid > *,
+        #services-carousel > * {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        #projects-section {
+            margin-bottom: 60px;
+        }
+
+        #services-section {
+            margin-top: 60px;
+        }
+
+        .group {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- Organic Glass Decor -->
+<div class="organic-glass w-[500px] h-[500px] bg-primary top-[-10%] left-[-10%]"></div>
+<div class="organic-glass w-[400px] h-[400px] bg-tertiary bottom-[10%] right-[-5%]"></div>
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full bg-surface/80 backdrop-blur-md shadow-sm border-b border-outline-variant">
+<nav class="flex justify-between items-center h-20 px-gutter max-w-[1200px] mx-auto">
+<div class="flex items-center gap-2 text-2xl md:text-headline-md font-jersey font-normal tracking-wide text-primary">
+                IRIS 365
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-lg text-label-lg text-primary font-bold border-b-2 border-primary pb-1" href="dashboard.html">Dashboard</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Projects</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Campus Services</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Community</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Learn</a>
+</div>
+<div class="flex items-center gap-4">
+<!-- Theme Toggle Button -->
+<button id="theme-toggle" class="p-2 hover:bg-surface-variant/50 rounded-full active:scale-95 transition-all text-on-surface-variant" title="Toggle dark mode">
+    <span class="material-symbols-outlined block">dark_mode</span>
+</button>
+<button class="p-2 hover:bg-surface-variant/50 rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<!-- Profile Container with Dropdown -->
+<div class="relative">
+    <button id="profile-menu-btn" class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container focus:outline-none focus:ring-2 focus:ring-primary active:scale-95 transition-all flex items-center justify-center bg-surface-variant">
+        <span id="avatar-placeholder" class="material-symbols-outlined text-on-surface-variant">person</span>
+        <img id="avatar-img" alt="User profile" src="" class="hidden w-full h-full object-cover"/>
+    </button>
+    <!-- Dropdown Menu -->
+    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-surface-container-high border border-outline-variant rounded-lg shadow-xl py-3 z-50 animate-fade-in origin-top-right">
+        <div class="px-4 py-2 border-b border-outline-variant mb-2">
+            <p id="user-display-name" class="font-title-md text-title-md text-on-surface font-bold truncate">Loading...</p>
+            <p id="user-display-email" class="font-body-md text-body-md text-on-surface-variant truncate text-xs">Loading...</p>
+            <p id="user-display-role" class="font-label-sm text-label-sm text-primary mt-1 hidden"></p>
+        </div>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container text-on-surface font-label-lg transition-colors text-sm">
+            <span class="material-symbols-outlined text-lg">person</span>
+            <span>My Profile</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container text-on-surface font-label-lg transition-colors text-sm">
+            <span class="material-symbols-outlined text-lg">settings</span>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container text-on-surface font-label-lg transition-colors text-sm">
+            <span class="material-symbols-outlined text-lg">help</span>
+            <span>Help Center</span>
+        </a>
+        <div class="border-t border-outline-variant mt-2 pt-2">
+            <button id="logout-btn" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-error-container hover:text-on-error-container text-error font-label-lg transition-colors text-left text-sm">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span>Log Out</span>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</nav>
+</header>
+<main class="max-w-[1200px] mx-auto px-4 md:px-margin-page pb-margin-page">
+<!-- Hero Section -->
+<section class="mt-8 relative overflow-hidden bg-surface-container rounded-[48px] p-gutter md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 min-h-[420px] border border-outline-variant">
+<div class="max-w-xl z-10">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-jersey font-normal tracking-wide mb-6">
+                    IRIS 365
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md">
+                    Empowering the campus ecosystem through cutting-edge technology, seamless services, and a vibrant community of innovators.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all shadow-md hover:shadow-lg">
+                        Explore Projects
+                    </button>
+<button class="px-8 py-4 border-2 border-primary text-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all hover:bg-primary-container/20">
+                        Meet the Team
+                    </button>
+</div>
+<!-- Marquee -->
+<div class="mt-16 overflow-hidden w-full mask-gradient-x">
+<div class="marquee py-4">
+<div class="marquee-content flex gap-4">
+<!-- Project Badge Repeats -->
+<span class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-sm whitespace-nowrap">CampusESoul</span>
+<span class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm whitespace-nowrap">FitJodhpur</span>
+<span class="px-4 py-2 bg-tertiary-container text-on-tertiary-container rounded-full font-label-sm whitespace-nowrap">Orchestra</span>
+<span class="px-4 py-2 bg-surface-variant text-on-surface-variant rounded-full font-label-sm whitespace-nowrap">Nexus Academy</span>
+<span class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-sm whitespace-nowrap">JIET Smart Bus</span>
+<!-- Duplicate for seamless loop -->
+<span class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-sm whitespace-nowrap">CampusESoul</span>
+<span class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm whitespace-nowrap">FitJodhpur</span>
+<span class="px-4 py-2 bg-tertiary-container text-on-tertiary-container rounded-full font-label-sm whitespace-nowrap">Orchestra</span>
+<span class="px-4 py-2 bg-surface-variant text-on-surface-variant rounded-full font-label-sm whitespace-nowrap">Nexus Academy</span>
+<span class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-sm whitespace-nowrap">JIET Smart Bus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Orbital Map Graphic -->
+<div class="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
+<div class="absolute inset-0 border-[1px] border-dashed border-outline/30 rounded-full animate-[spin_60s_linear_infinite]"></div>
+<div class="absolute inset-8 border-[1px] border-dashed border-outline/20 rounded-full animate-[spin_40s_linear_infinite_reverse]"></div>
+<div class="absolute inset-16 border-[1px] border-dashed border-outline/10 rounded-full animate-[spin_30s_linear_infinite]"></div>
+<div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-on-primary z-20 shadow-xl pulse-ring">
+<span class="material-symbols-outlined text-4xl">hub</span>
+</div>
+<!-- Pulsing Nodes -->
+<div class="absolute top-[10%] left-[50%] -translate-x-1/2 w-4 h-4 bg-primary rounded-full pulse-ring"></div>
+<div class="absolute bottom-[15%] left-[20%] w-4 h-4 bg-secondary rounded-full pulse-ring" style="animation-delay: 0.5s"></div>
+<div class="absolute top-[30%] right-[10%] w-4 h-4 bg-tertiary rounded-full pulse-ring" style="animation-delay: 1.2s"></div>
+<div class="absolute top-[60%] left-[5%] w-3 h-3 bg-primary-fixed-dim rounded-full pulse-ring" style="animation-delay: 0.8s"></div>
+<div class="absolute bottom-[5%] right-[25%] w-3 h-3 bg-secondary-fixed-dim rounded-full pulse-ring" style="animation-delay: 1.5s"></div>
+<div class="absolute top-[20%] left-[15%] w-3 h-3 bg-outline rounded-full pulse-ring" style="animation-delay: 0.3s"></div>
+<div class="absolute bottom-[40%] right-[5%] w-4 h-4 bg-primary rounded-full pulse-ring" style="animation-delay: 2s"></div>
+<div class="absolute top-[80%] right-[40%] w-4 h-4 bg-tertiary rounded-full pulse-ring" style="animation-delay: 1.7s"></div>
+</div>
+</section>
+<!-- Stats Bar -->
+<section id="stats-section" class="mt-margin-page grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-low p-6 rounded-lg text-center border-b-2 border-primary border border-outline-variant">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider mb-2">Projects</p>
+<p class="font-headline-md text-headline-md font-bold text-primary counter" data-target="12">0</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg text-center border-b-2 border-secondary border border-outline-variant">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider mb-2">Members</p>
+<p class="font-headline-md text-headline-md font-bold text-secondary counter" data-target="35">0</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg text-center border-b-2 border-tertiary border border-outline-variant">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider mb-2">Services</p>
+<p class="font-headline-md text-headline-md font-bold text-tertiary counter" data-target="24">0</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg text-center border-b-2 border-primary-fixed-dim border border-outline-variant">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider mb-2">System Status</p>
+<p class="font-headline-md text-headline-md font-bold text-primary flex items-center justify-center gap-2">
+<span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                    Live
+                </p>
+</div>
+</section>
+<!-- Projects Grid -->
+<section id="projects-section" class="mt-20">
+<div id="projects-header" class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Innovation Portfolio</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Live solutions engineered for campus life.</p>
+</div>
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-1 hover:gap-2 transition-all">
+                    View Archive <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Project Cards -->
+<a href="https://event-management-jiet.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-primary block">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">school</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">CampusESoul</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">The definitive central academic operating system for streamlined administration.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Academic</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">ERP</span>
+</div>
+</a>
+<a href="https://fitjodhpurr.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-tertiary block">
+<div class="w-12 h-12 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">FitJodhpur</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Regional fitness network connecting athletes and gym enthusiasts across Jodhpur.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Lifestyle</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Health</span>
+</div>
+</a>
+<a href="https://orchestraa-iris-365-jerry.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-cyan-500 block">
+<div class="w-12 h-12 bg-cyan-100 text-cyan-900 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">music_note</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">Orchestra</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Real-time collaborative workspace for synchronized creative teams.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Creative</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Tools</span>
+</div>
+</a>
+<a href="https://nexus-ed-tech.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-purple-500 block">
+<div class="w-12 h-12 bg-purple-100 text-purple-900 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">Nexus Academy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Next-gen LMS providing immersive learning experiences through AI-driven insights.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">EdTech</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">AI</span>
+</div>
+</a>
+<a href="https://tourmaline-madeleine-d04dee.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-amber-500 block">
+<div class="w-12 h-12 bg-amber-100 text-amber-900 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">directions_bus</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">JIET Smart Bus</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Precision tracking and occupancy analytics for the campus transit system.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Transit</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">IoT</span>
+</div>
+</a>
+<a href="https://jietcanteenerp.netlify.app/" target="_blank" class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-green-500 block">
+<div class="w-12 h-12 bg-green-100 text-green-900 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">JIET Canteen</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Smart ordering and queue management for institutional dining halls.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Service</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Digital Pay</span>
+</div>
+</a>
+<div class="group bg-surface-container rounded-lg p-6 hover:shadow-md border border-outline-variant border-l-4 border-l-orange-500">
+<div class="w-12 h-12 bg-orange-100 text-orange-900 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">room_service</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">Unicuisine</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Premium delivery service tailored for the unique logistics of university campuses.</p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full text-label-sm">Logistics</span>
+</div>
+</div>
+<div class="group border-2 border-dashed border-outline/30 rounded-lg p-6 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100">
+<div class="w-12 h-12 rounded-full border-2 border-dashed border-outline/30 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">add</span>
+</div>
+<h3 class="font-title-lg text-title-lg font-bold mb-2">Upcoming Project</h3>
+<p class="font-body-md text-body-md">Secret innovation in stealth mode. Stay tuned.</p>
+</div>
+</div>
+</section>
+<!-- Campus Services (Glassmorphism) -->
+<section id="services-section" class="mt-16">
+<h2 id="services-header" class="font-headline-md text-headline-md font-bold mb-8">Integrated Services</h2>
+<div id="services-carousel" class="flex flex-nowrap overflow-x-auto gap-6 pb-8 px-4 w-full no-scrollbar">
+<a href="https://tourmaline-madeleine-d04dee.netlify.app/" target="_blank" class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group block">
+<div class="mb-8 p-3 bg-primary/10 w-fit rounded-lg group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">map</span>
+</div>
+<h4 class="font-title-lg text-title-lg font-bold mb-4">Bus Tracking</h4>
+<p class="text-on-surface-variant font-body-md mb-6">Real-time GPS tracking for all campus transport with ETA notifications.</p>
+<span class="text-primary font-label-lg flex items-center gap-1">Open Map <span class="material-symbols-outlined">arrow_outward</span></span>
+</a>
+<a href="https://jietcanteenerp.netlify.app/" target="_blank" class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group block">
+<div class="mb-8 p-3 bg-tertiary/10 w-fit rounded-lg group-hover:bg-tertiary/20 transition-colors">
+<span class="material-symbols-outlined text-tertiary text-3xl">fastfood</span>
+</div>
+<h4 class="font-title-lg text-title-lg font-bold mb-4">Smart Canteen</h4>
+<p class="text-on-surface-variant font-body-md mb-6">Browse menus, pre-order meals, and avoid queues.</p>
+<span class="text-tertiary font-label-lg flex items-center gap-1">Order Now <span class="material-symbols-outlined">arrow_outward</span></span>
+</a>
+<a href="https://nexus-ed-tech.netlify.app/" target="_blank" class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group block">
+<div class="mb-8 p-3 bg-secondary/10 w-fit rounded-lg group-hover:bg-secondary/20 transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl">local_library</span>
+</div>
+<h4 class="font-title-lg text-title-lg font-bold mb-4">Learning Hub</h4>
+<p class="text-on-surface-variant font-body-md mb-6">Access courses and resources in one place.</p>
+<span class="text-secondary font-label-lg flex items-center gap-1">Study <span class="material-symbols-outlined">arrow_outward</span></span>
+</a>
+<div class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group">
+<div class="mb-8 p-3 bg-primary/10 w-fit rounded-lg group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">groups</span>
+</div>
+<h4 class="font-title-lg text-title-lg font-bold mb-4">Community</h4>
+<p class="text-on-surface-variant font-body-md mb-6">Connect with student organizations and find campus events that matter to you.</p>
+<button class="text-primary font-label-lg flex items-center gap-1">Join <span class="material-symbols-outlined">arrow_outward</span></button>
+</div>
+</div>
+</section>
+<!-- Leadership Section -->
+<section id="leadership-section" class="mt-24 bg-gradient-to-br from-primary to-primary-container rounded-[48px] overflow-hidden p-gutter md:p-16 text-on-primary flex flex-col md:flex-row items-center gap-12 border border-outline-variant">
+<div class="flex-1">
+<span class="material-symbols-outlined text-5xl opacity-40 mb-6">format_quote</span>
+<p class="font-headline-md text-headline-lg-mobile md:text-title-lg md:text-[32px] md:leading-[44px] italic font-light mb-8">
+                    "Innovation at IRIS 365 isn't just about code; it's about building a sustainable future where technology serves humanity. We empower students to turn vision into reality."
+                </p>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white/30">
+<img alt="CEO Er. Harshvardhan Purohit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP6Wse2hzD6X8q2WEL_swjYO5DzvAdHgDUQynVMZhuVqUyyb0mTEoEPMTVa5-kHqd0uGLTVnSU2VFE6SoOLoEBfsE7J_JzLOsfNaUnmlLR1JNlepUAwMtOPegHU2WmdMMgQgt7txRGSQFc2f5zRImFThw2fD0HuPxwG-ZvHOqX1val7ZClj1-IH-iQe0dmDPxOgMKNmdyowWCu0Q-n5gA53lfjN10N5E4NAurzrMrzxlFpCXD2f2jZXAmHTFSdNH66Y4CxhhJ9-0c"/>
+</div>
+<div>
+<p class="font-title-md text-title-md font-bold">Er. Harshvardhan Purohit</p>
+<p class="font-label-lg text-label-lg opacity-80">CEO &amp; Visionary Leader</p>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/3">
+<div class="aspect-square bg-white/10 rounded-lg p-8 backdrop-blur-md flex flex-col justify-center items-center text-center border border-white/10">
+<p class="font-headline-lg text-headline-md font-bold mb-2">35+</p>
+<p class="font-label-lg text-label-lg uppercase tracking-widest opacity-80 mb-6">Core Members</p>
+<div class="w-full h-[2px] bg-white/20 mb-6"></div>
+<p class="font-body-md">Driving institutional excellence through student-led innovation.</p>
+</div>
+</div>
+</section>
+<!-- Team Section (Organic Avatar Cluster) -->
+<section id="team-section" class="mt-24 text-center">
+<h2 class="font-headline-md text-headline-md font-bold mb-4">The Innovation Squad</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto">Our multidisciplinary team combines design, engineering, and strategy to build the next generation of campus tools.</p>
+<div class="relative h-[400px] flex items-center justify-center overflow-hidden">
+<!-- Center Piece -->
+<div class="w-32 h-32 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold z-10 shadow-xl">
+                    35+<br/>Talents
+                </div>
+<!-- Floating Avatars (Representational sample) -->
+<div class="absolute top-[10%] left-[30%] avatar-pop" style="animation-delay: 0.1s">
+<img class="w-16 h-16 rounded-full border-4 border-surface shadow-lg" alt="Team member 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPMOlzImrhlkfA4TYk2lUiejNPBhfcvp4oJg6hOGdqpULy0o_g5xKBjmDAir0fgHKQ-9zI3o_AZ5I9WZzHcrerfDWBhay3L2TVmOmCqV_YIsoiHl1NMnbgMQaCK-vhWUuGbHRURV5jAzxzwcC49tWJAeTMPSKwza873IdxDYnqppQBhWUNvAKaPIzecWIXc5jePH508PrljLhFuKOCY9ceOi70ikZky4YKvkK82UehVLR_7vPtwQpCyCUvoUHQjpS0wntsX2fnK6U"/>
+</div>
+<div class="absolute top-[20%] right-[35%] avatar-pop" style="animation-delay: 0.3s">
+<img class="w-14 h-14 rounded-full border-4 border-surface shadow-lg" alt="Team member 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBRm98phWRL7y5FgXGDXrKcEdkF3SL6SDnTzFKhglqNwLu-IFMLcm9TniQpLQTT7hvS57yF1L4G7iPOMttsZPSlriCtsUy96Xu4Y5DligDfZ8XRQZlSiAHpJ4QJHLQw48HATlLJRtxDtgFasn0D7ZZ9ePSMO8w2jpxIxqhS1lni1Kw1KfuytdOE9OoWLlHWTBcrxCG6X281a6LqC2YTkp3ZjYW3ccAHzijVy394nI8ABWhzDeRxWCzxfJ_Czm28rfdm1E_fvY0uIE"/>
+</div>
+<div class="absolute bottom-[20%] left-[35%] avatar-pop" style="animation-delay: 0.5s">
+<img class="w-20 h-20 rounded-full border-4 border-surface shadow-lg" alt="Team member 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDv00LpwbMOXPZaiT3q9wjQpEPSlmpZUoN4J0ibIbAjY9PfYmvnFzpYkIKXgJtc8JT_YrKvVzOSHdkLARtdaChHaNRHu4jX8HCzdFDsPO2ZCMZo47Kb_4uLybXOyXzxpnMXju2MC8XC6pCll2CnA7srzmAlCmZQL2y6-JKNNdJ0L9gyZWaKFeGXd1WFJgSGS-hsQ19H0hWFWfFl2s39nRDzyOOjol4irfO45DkB3w13CODHZZOo9-UBgoLCIhaDGsZUUOGFdMTyng"/>
+</div>
+<div class="absolute bottom-[10%] right-[30%] avatar-pop" style="animation-delay: 0.7s">
+<img class="w-12 h-12 rounded-full border-4 border-surface shadow-lg" alt="Team member 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPWHec-IyI0ynbbDnd-IKlmnv3rXt6OsmISeTWwgdXaE-jM14v4__m4RNtu0G8zXR45YpttEHF9BPaNgrK7i3Y9i7yfKedR-3f7S8HIFlJ9MSlyfX_sHrmLu2or9VEr6esUWNNbECQSxHhRYUYUhDsFQslxOFasAYR2cxUPGJ9WIHg5y3I-OCD-m_N0GOI-gab7t0S6AXn4fv-f8ERXfQLH_Fsy2zAmy-Nb8yfVceG8djeLl3ii4bS9ciqteXR2SWToU5jSdqZDrU"/>
+</div>
+<div class="absolute top-[40%] right-[15%] avatar-pop" style="animation-delay: 0.9s">
+<img class="w-16 h-16 rounded-full border-4 border-surface shadow-lg" alt="Team member 5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwxvAuR14-y38Kfl_gIneq3Olcq6QURD_fD928PPHc9UYyl83wCBuCCuX3k9-mbki-wDkCkuarq8WWDPXesHHpuO_XOFUWGZhusfwaEUEaWPFFnT1aK_idiohtK-PXacwykvclV2DxMTXDgBlYsn4r2hYNghOVySrAeGRszgrj_1VhiNHAZmVl2ksMzDMlKguVJO8-nGa6uG8_BCqlCbn-XN4HczV6EKsU_C-k_gMjDN06CYWyk-Z6kJ76eYA1NgzxhoYAMzIkrkc"/>
+</div>
+<div class="absolute top-[40%] left-[15%] avatar-pop" style="animation-delay: 1.1s">
+<img class="w-14 h-14 rounded-full border-4 border-surface shadow-lg" alt="Team member 6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2_ot95JBx1gASskO_aVnmJZSot02rhzVXo8KMoJ9mD7z7wX3O52hcyjT50MKBeprV2evz7FOffWTbtF7q8Mc1KEOoG0-x0yQUrMXVKTYUNb5r84o9tBdcC-vuMYDUsywqzeHjXZC4JxUAVNk5yoQFNxLSY5VKmbeQycjzlWWsb_Ap4OHpcrltdR-3lO_K4xGnXp1QF4BLf7x41vXbKgh1mFBfhkAgCbKzFVYCBMtczeflQsWuFJSjJXU_gLa0PBfMRvijaAOPiUE"/>
+</div>
+<!-- Background Dots representing more members -->
+<div class="absolute top-[15%] right-[20%] w-3 h-3 bg-primary-container rounded-full animate-pulse"></div>
+<div class="absolute bottom-[25%] left-[20%] w-2 h-2 bg-secondary-container rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+<div class="absolute top-[60%] left-[45%] w-4 h-4 bg-tertiary-container rounded-full animate-pulse" style="animation-delay: 0.8s"></div>
+</div>
+<button class="px-8 py-4 bg-primary-container text-on-primary-container rounded-full font-label-lg mt-8 active:scale-95 transition-all">
+                Join the Team
+            </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container rounded-t-lg w-full mt-margin-page border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-start gap-gutter p-gutter md:p-margin-page max-w-[1200px] mx-auto relative overflow-hidden">
+<!-- Organic shape for footer -->
+<div class="absolute top-[-50px] right-[-50px] w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="z-10">
+<div class="font-headline-md text-headline-md font-jersey font-normal tracking-wide text-primary mb-4">IRIS 365</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
+                    Empowering academic institutions with digital ecosystems that scale.
+                </p>
+<div class="flex gap-4 mt-8">
+<a class="w-10 h-10 rounded-full bg-surface-variant/50 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-variant/50 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12 z-10">
+<div class="flex flex-col gap-4">
+<p class="font-label-lg text-label-lg font-bold text-on-surface">Platform</p>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Projects</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Campus Services</a>
+</div>
+<div class="flex flex-col gap-4">
+<p class="font-label-lg text-label-lg font-bold text-on-surface">Community</p>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Learn</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<div class="flex flex-col gap-4">
+<p class="font-label-lg text-label-lg font-bold text-on-surface">Legal</p>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Use</a>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto px-gutter py-8 border-t border-outline/10 text-on-surface-variant font-label-sm text-center">
+            &copy; 2024 IRIS 365. Building Tomorrow Together.
+        </div>
+</footer>
+<!-- FAB for mobile navigation (if applicable) -->
+<div class="fixed bottom-8 right-8 md:hidden z-50">
+<button class="w-16 h-16 bg-primary text-on-primary rounded-[28px] shadow-lg flex items-center justify-center active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+<script>
+        // ─── Supabase Client Initialization ────────────────────────
+        let supabaseClient = null;
+        let authStateListener = null;
+
+        function initSupabase() {
+            const url = localStorage.getItem('supabase_url') || 'https://bbramkluoytodpeaxlku.supabase.co';
+            const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJicmFta2x1b3l0b2RwZWF4bGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk4NjgsImV4cCI6MjA5NTE4NTg2OH0.HtzuKmdRo8zZjeqa0zr53rfz6p5oXikkbohOGHjrp-c';
+            if (url && key) {
+                try {
+                    supabaseClient = supabase.createClient(url, key, {
+                        auth: {
+                            autoRefreshToken: true,
+                            persistSession: true,
+                            detectSessionInUrl: true,
+                        }
+                    });
+                    // Listen for auth state changes (avoid initial false-positive redirect on page load)
+                    let isInitial = true;
+                    const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
+                        if (event === 'SIGNED_OUT') {
+                            if (!isInitial) {
+                                localStorage.removeItem('user_email');
+                                localStorage.removeItem('user_name');
+                                localStorage.removeItem('supabase_user_email');
+                                window.location.href = 'index.html';
+                            }
+                        }
+                        isInitial = false;
+                    });
+                    authStateListener = data?.subscription || null;
+                } catch (err) {
+                    console.error("Failed to initialize Supabase:", err);
+                    supabaseClient = null;
+                }
+            }
+        }
+
+        initSupabase();
+
+        // ─── Load User Profile ─────────────────────────────────────
+        async function loadUserProfile(userId) {
+            if (!supabaseClient) return null;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+                if (error) {
+                    console.warn('Profile fetch error:', error.message);
+                    return null;
+                }
+                return data;
+            } catch (err) {
+                console.warn('Profile fetch exception:', err);
+                return null;
+            }
+        }
+
+        function updateUserDisplay(userEmail, userName, profile) {
+            const displayName = document.getElementById('user-display-name');
+            const displayEmail = document.getElementById('user-display-email');
+            const displayRole = document.getElementById('user-display-role');
+            const avatarImg = document.getElementById('avatar-img');
+            const avatarPlaceholder = document.getElementById('avatar-placeholder');
+
+            // Display name: prefer profile full_name, then user_metadata full_name, then parsed email
+            let name = userName || '';
+            if (profile?.full_name) name = profile.full_name;
+            if (!name && userEmail) {
+                name = userEmail.split('@')[0]
+                    .split(/[._-]/)
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+            }
+            displayName.textContent = name || 'User';
+
+            // Email
+            displayEmail.textContent = userEmail || 'No email';
+
+            // Role badge
+            if (profile?.role) {
+                displayRole.textContent = profile.role.charAt(0).toUpperCase() + profile.role.slice(1);
+                displayRole.classList.remove('hidden');
+            } else {
+                displayRole.classList.add('hidden');
+            }
+
+            // Avatar: use profile avatar_url if available
+            if (profile?.avatar_url) {
+                avatarImg.src = profile.avatar_url;
+                avatarImg.classList.remove('hidden');
+                avatarPlaceholder.classList.add('hidden');
+            } else {
+                avatarImg.classList.add('hidden');
+                avatarPlaceholder.classList.remove('hidden');
+            }
+        }
+
+        // ─── Auth Guard ────────────────────────────────────────────
+        async function checkAuth() {
+            let userEmail = localStorage.getItem('user_email');
+            let userName = localStorage.getItem('user_name');
+
+            // Try Supabase session first
+            if (supabaseClient) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session?.user) {
+                        const sessionUser = session.user;
+                        userEmail = sessionUser.email;
+                        userName = sessionUser.user_metadata?.full_name ||
+                            sessionUser.email?.split('@')[0] || 'User';
+                        localStorage.setItem('user_email', userEmail);
+                        localStorage.setItem('user_name', userName);
+                        localStorage.setItem('supabase_user_email', userEmail);
+
+                        // Load profile from profiles table
+                        const profile = await loadUserProfile(sessionUser.id);
+                        
+                        // Construct user info combining database profile and metadata (e.g. Google avatar)
+                        const finalProfile = profile ? { ...profile } : {};
+                        if (!finalProfile.avatar_url) {
+                            finalProfile.avatar_url = sessionUser.user_metadata?.avatar_url || sessionUser.user_metadata?.picture || null;
+                        }
+                        if (!finalProfile.full_name) {
+                            finalProfile.full_name = sessionUser.user_metadata?.full_name || null;
+                        }
+
+                        updateUserDisplay(userEmail, userName, finalProfile);
+                        return;
+                    }
+                } catch (err) {
+                    console.error("Session check error:", err);
+                }
+            }
+
+            // Fallback: check localStorage for demo login
+            if (!userEmail) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            updateUserDisplay(userEmail, userName, null);
+        }
+
+        checkAuth();
+
+        // ─── Profile Dropdown Toggle ───────────────────────────────
+        const profileMenuBtn = document.getElementById('profile-menu-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target) && !profileMenuBtn.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        // ─── Logout ─────────────────────────────────────────────────
+        const logoutBtn = document.getElementById('logout-btn');
+        logoutBtn.addEventListener('click', async () => {
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.auth.signOut();
+                } catch (err) {
+                    console.error("Sign out error:", err);
+                }
+            }
+            localStorage.removeItem('user_email');
+            localStorage.removeItem('user_name');
+            localStorage.removeItem('supabase_user_email');
+            window.location.href = 'index.html';
+        });
+
+        // ─── Theme Toggle ──────────────────────────────────────────
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = themeToggleBtn.querySelector('.material-symbols-outlined');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+                themeToggleIcon.textContent = 'light_mode';
+            } else {
+                htmlElement.classList.add('light');
+                htmlElement.classList.remove('dark');
+                themeToggleIcon.textContent = 'dark_mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = htmlElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // ─── GSAP Animations ───────────────────────────────────────
+        window.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. Navbar & Hero Entry
+            const tl = gsap.timeline();
+            tl.from('header nav > *', {
+                y: -30, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+            });
+            tl.from('main > section:first-of-type', {
+                scale: 0.96, opacity: 0, duration: 1.2, ease: 'power3.out'
+            }, '-=0.6');
+            tl.from('main > section:first-of-type .max-w-xl > *', {
+                y: 35, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power2.out'
+            }, '-=0.8');
+            tl.from('main > section:first-of-type div.relative.w-full', {
+                scale: 0.4, opacity: 0, rotation: -60, duration: 1.5, ease: 'back.out(1.5)'
+            }, '-=1.0');
+
+            // 2. Stats Section Counters
+            gsap.utils.toArray('.counter').forEach(counter => {
+                const targetVal = parseInt(counter.getAttribute('data-target'), 10);
+                const obj = { val: 0 };
+                gsap.to(obj, {
+                    val: targetVal, duration: 2.0, ease: 'power2.out',
+                    scrollTrigger: { trigger: '#stats-section', start: 'top 95%', toggleActions: 'play none none none' },
+                    onUpdate: () => { counter.innerText = Math.ceil(obj.val); }
+                });
+            });
+
+            // 3. Projects Section Animation Timeline
+            const projectsTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#projects-section',
+                    start: 'top 95%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            projectsTl.from('#projects-header', {
+                y: 30, opacity: 0, duration: 0.6, ease: 'power3.out'
+            });
+            projectsTl.fromTo('#projects-grid > *', 
+                { y: 40, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', clearProps: 'all' },
+                '-=0.4'
+            );
+
+            // 4. Services Section Animation Timeline
+            const servicesTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#services-section',
+                    start: 'top 95%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            servicesTl.from('#services-header', {
+                y: 30, opacity: 0, duration: 0.6, ease: 'power3.out'
+            });
+            servicesTl.fromTo('#services-carousel > *', 
+                { x: 60, opacity: 0 },
+                { x: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', clearProps: 'all' },
+                '-=0.4'
+            );
+
+            // 5. Leadership Section
+            gsap.from('#leadership-section', {
+                scrollTrigger: { trigger: '#leadership-section', start: 'top 95%', toggleActions: 'play none none none' },
+                y: 50, opacity: 0, duration: 1.0, ease: 'power3.out'
+            });
+
+            // 6. Team Section Animation Timeline
+            const teamTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#team-section',
+                    start: 'top 95%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            teamTl.from('#team-section h2, #team-section p, #team-section button', {
+                y: 35, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out'
+            });
+            teamTl.from('#team-section .avatar-pop', {
+                scale: 0, opacity: 0, duration: 1.2, stagger: 0.08, ease: 'back.out(1.7)'
+            }, '-=0.6');
+
+            // Floating Node animation
+            gsap.to('.pulse-ring', {
+                y: '+=10', duration: 'random(1.5, 2.5)', repeat: -1, yoyo: true, ease: 'sine.inOut',
+                stagger: { each: 0.2, from: 'random' }
+            });
+
+            // Interactions
+            document.querySelectorAll('.group').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { y: -8, scale: 1.02, duration: 0.4, ease: 'power2.out',
+                        boxShadow: '0 12px 28px -5px rgba(0, 0, 0, 0.12), 0 8px 12px -6px rgba(0, 0, 0, 0.12)' });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: 'power2.out', boxShadow: 'none' });
+                });
+            });
+
+            document.querySelectorAll('.avatar-pop').forEach(avatar => {
+                avatar.addEventListener('mouseenter', () => {
+                    gsap.to(avatar, { scale: 1.15, rotation: 4, duration: 0.3, ease: 'back.out(1.5)', zIndex: 40 });
+                });
+                avatar.addEventListener('mouseleave', () => {
+                    gsap.to(avatar, { scale: 1, rotation: 0, duration: 0.3, ease: 'power2.out', zIndex: 10 });
+                });
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX - window.innerWidth / 2) * 0.025;
+                const y = (e.clientY - window.innerHeight / 2) * 0.025;
+                gsap.to('.organic-glass', {
+                    x: (index) => x * (index + 1), y: (index) => y * (index + 1),
+                    duration: 1.5, ease: 'power2.out', overwrite: 'auto'
+                });
+            });
+
+            // Refresh ScrollTrigger to ensure correct placement calculations
+            // ScrollTrigger.refresh();
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="light scroll-smooth" lang="en">
 <head>
     <script>
         window.addEventListener('error', function(e) {
@@ -328,10 +328,10 @@
             </div>
 <div class="hidden md:flex items-center gap-8">
 <a class="font-label-lg text-label-lg text-primary font-bold border-b-2 border-primary pb-1" href="dashboard.html">Dashboard</a>
-<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Projects</a>
-<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Campus Services</a>
-<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Community</a>
-<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Learn</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#projects-section">Projects</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#services-section">Campus Services</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="https://sinmlverse.netlify.app/" target="_blank">Community</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#leadership-section">Learn</a>
 </div>
 <div class="flex items-center gap-4">
 <!-- Theme Toggle Button -->
@@ -388,12 +388,12 @@
                     Empowering the campus ecosystem through cutting-edge technology, seamless services, and a vibrant community of innovators.
                 </p>
 <div class="flex flex-wrap gap-4">
-<button class="px-8 py-4 bg-primary text-on-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all shadow-md hover:shadow-lg">
+<a href="#projects-section" class="inline-block px-8 py-4 bg-primary text-on-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all shadow-md hover:shadow-lg text-center">
                         Explore Projects
-                    </button>
-<button class="px-8 py-4 border-2 border-primary text-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all hover:bg-primary-container/20">
+                    </a>
+<a href="#team-section" class="inline-block px-8 py-4 border-2 border-primary text-primary rounded-full font-label-lg text-label-lg active:scale-95 transition-all hover:bg-primary-container/20 text-center">
                         Meet the Team
-                    </button>
+                    </a>
 </div>
 <!-- Marquee -->
 <div class="mt-16 overflow-hidden w-full mask-gradient-x">
@@ -582,14 +582,14 @@
 <p class="text-on-surface-variant font-body-md mb-6">Access courses and resources in one place.</p>
 <span class="text-secondary font-label-lg flex items-center gap-1">Study <span class="material-symbols-outlined">arrow_outward</span></span>
 </a>
-<div class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group">
+<a href="https://sinmlverse.netlify.app/" target="_blank" class="min-w-[320px] max-w-[320px] bg-white/10 backdrop-blur-lg border border-outline-variant p-8 rounded-lg shadow-sm hover:translate-y-[-8px] transition-all duration-500 group block">
 <div class="mb-8 p-3 bg-primary/10 w-fit rounded-lg group-hover:bg-primary/20 transition-colors">
 <span class="material-symbols-outlined text-primary text-3xl">groups</span>
 </div>
 <h4 class="font-title-lg text-title-lg font-bold mb-4">Community</h4>
 <p class="text-on-surface-variant font-body-md mb-6">Connect with student organizations and find campus events that matter to you.</p>
-<button class="text-primary font-label-lg flex items-center gap-1">Join <span class="material-symbols-outlined">arrow_outward</span></button>
-</div>
+<span class="text-primary font-label-lg flex items-center gap-1">Join <span class="material-symbols-outlined">arrow_outward</span></span>
+</a>
 </div>
 </section>
 <!-- Leadership Section -->
@@ -678,12 +678,12 @@
 <div class="grid grid-cols-2 md:grid-cols-3 gap-12 z-10">
 <div class="flex flex-col gap-4">
 <p class="font-label-lg text-label-lg font-bold text-on-surface">Platform</p>
-<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Projects</a>
-<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Campus Services</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#projects-section">Projects</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#services-section">Campus Services</a>
 </div>
 <div class="flex flex-col gap-4">
 <p class="font-label-lg text-label-lg font-bold text-on-surface">Community</p>
-<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Learn</a>
+<a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#leadership-section">Learn</a>
 <a class="font-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
 </div>
 <div class="flex flex-col gap-4">
